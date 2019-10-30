@@ -1,3 +1,8 @@
+"""
+Car class
+
+This is where the car is drawn and given values
+"""
 import pygame as pg
 
 
@@ -13,11 +18,14 @@ class Car(object):
         self.max_reverse_speed = -10
 
     def draw(self, w, i):
+        # rotates car
         rotated = pg.transform.rotate(i, self.angle)
         rect = rotated.get_rect()
+        # sets car's position to center of image
         rect.center = self.position
         print(self.angle)
         print(self.position)
         print(self.speed)
+        # displays image on window
         w.blit(rotated, rect)
         pg.display.flip()

@@ -1,10 +1,19 @@
+"""
+Hitbox class
+
+This is where the hitbox is calculated based on the car's position
+"""
 import math
 import pygame as pg
 
 
 class Hitbox(object):
     def draw(self, w, a, x, y):
+        """
+        this code gets the position of the car and draws a box from that point
 
+        then shifts the box to fit over the car
+        """
         origin = (x, y)
         angle = 116.3 # place holder
         x = origin[0] + math.cos(math.radians(-a + -angle)) * math.sqrt(math.pow(53, 2) + math.pow(27, 2)) / 2
