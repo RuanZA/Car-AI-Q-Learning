@@ -1,7 +1,11 @@
 import pygame as pg
 import math
+import track
+import hitbox
+import car
 
 pg.init()
+background = pg.image.load("track.png")
 image = pg.image.load("car.png")
 clock = pg.time.Clock()
 height = 720
@@ -12,56 +16,21 @@ win = pg.display.set_mode((width, height))
 pg.display.set_caption("")
 
 
-class Track(object):
-    def __init__(self):
-        pass
-
-    def draw(self):
-        pass
-
-
-class Car(object):
-    def __init__(self, x=250, y=250, angle=0.0, speed=0, deceleration=1, acceleration=1):
-        self.position = (x, y)
-        self.angle = angle
-        self.speed = speed
-        self.deceleration = deceleration
-        self.acceleration = acceleration
-        self.turn_speed = 5
-        self.max_forward_speed = 5
-        self.max_reverse_speed = -10
-        self.throtle = False
-
-    def draw(self, w, i):
-        rotated = pg.transform.rotate(i, s.angle)
-        rect = rotated.get_rect()
-        rect.center = s.position
-        print(s.angle)
-        print(s.position)
-        print(s.speed)
-        w.blit(rotated, rect)
-        pg.display.flip()
-
-
-class Hitbox(object):
-    def __init__(self, x=250, y=250):
-        self.x = x
-        self.y = y
-
-    def draw(self, w):
-        pg.draw.polygon(w, (255, 0, 0), s.position, 1)
-
-
 def window():
-    win.fill((0, 0, 0))
-    s.draw(win, image)
-    h.draw(win)
+    win.blit(background, (0, 0))
+    # h.draw(win, s.position[0], s.position[1])
+    c.draw(win, image)
+    h.draw(win, c.angle, c.position[0], c.position[1])
     pg.display.update()
 
 
+forward = True
+backwards = False
 k_up = k_down = k_left = k_right = 0
-h = Hitbox()
-s = Car()
+
+t = track.Track()
+h = hitbox.Hitbox()
+c = car.Car()
 done = False
 while not done:
     clock.tick(60)
@@ -73,34 +42,46 @@ while not done:
     keys = pg.key.get_pressed()
 
     if keys[pg.K_UP]:
-        s.speed -= s.acceleration
+        c.speed -= c.acceleration
+        forward = True
+        backwards = False
     if keys[pg.K_DOWN]:
-        s.speed += s.deceleration
-    if keys[pg.K_RIGHT] and abs(s.speed) > 0.1:
-        s.angle -= s.turn_speed
-    if keys[pg.K_LEFT] and abs(s.speed) > 0.1:
-        s.angle += s.turn_speed
+        c.speed += c.deceleration
+        forward = False
+        backwards = True
+    if keys[pg.K_RIGHT] and abs(c.speed) > 0.1 and forward:
+        c.angle -= c.turn_speed
+    if keys[pg.K_LEFT] and abs(c.speed) > 0.1 and forward:
+        c.angle += c.turn_speed
+    if keys[pg.K_RIGHT] and abs(c.speed) > 0.1 and backwards:
+        c.angle += c.turn_speed
+    if keys[pg.K_LEFT] and abs(c.speed) > 0.1 and backwards:
+        c.angle -= c.turn_speed
+    if keys[pg.K_SPACE]:
+        if c.speed < 0:
+            c.speed += 0.3
+        if c.speed > 0:
+            c.speed -= 0.3
 
     if not done:
-        if s.speed < 0:
-            s.speed += 0.08
-        if s.speed > 0:
-            s.speed -= 0.08
+        if c.speed < 0:
+            c.speed += 0.08
+        if c.speed > 0:
+            c.speed -= 0.08
 
-    if abs(s.speed) < 0.1:
-        s.speed = 0
+    if abs(c.speed) < 0.1:
+        c.speed = 0
 
-    if s.speed > s.max_forward_speed:
-        s.speed = s.max_forward_speed
-    if s.speed < s.max_reverse_speed:
-        s.speed = s.max_reverse_speed
+    if c.speed > c.max_forward_speed:
+        c.speed = c.max_forward_speed
+    if c.speed < c.max_reverse_speed:
+        c.speed = c.max_reverse_speed
 
-    x, y = s.position
-    rad = s.angle * math.pi / 180
-    x += s.speed * math.sin(rad)
-    y += s.speed * math.cos(rad)
-
-    s.position = (x, y)
+    x, y = c.position
+    rad = c.angle * math.pi / 180
+    x += c.speed * math.sin(rad)
+    y += c.speed * math.cos(rad)
+    c.position = (x, y)
 
     window()
 
