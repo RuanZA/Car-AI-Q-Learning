@@ -15,7 +15,7 @@ class Car(object):
         self.acceleration = acceleration
         self.turn_speed = 5
         self.max_forward_speed = 5
-        self.max_reverse_speed = -10
+        self.max_reverse_speed = -9
 
     def draw(self, w, i):
         # rotates car

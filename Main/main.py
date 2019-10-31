@@ -22,11 +22,38 @@ w_half = width / 2
 win = pg.display.set_mode((width, height))
 pg.display.set_caption("Car AI")
 
+track_out = ((100, 392),
+(100, 249),
+(150, 171),
+(237, 111),
+(404, 95),
+(594, 89),
+(745, 95),
+(793, 121),
+(828, 178),
+(833, 228),
+(799, 286),
+(740, 334),
+(730, 365),
+(812, 381),
+(940, 385),
+(1086, 397),
+(1143, 441),
+(1174, 502),
+(1175, 574),
+(1123, 643),
+(1043, 669),
+(845, 681),
+(320, 675),
+(199, 643),
+(133, 571))
+
 
 # draw window and other classes method
 def window():
     win.blit(background, (0, 0))
     # h.draw(win, s.position[0], s.position[1])
+    t.draw(win, track_out)
     c.draw(win, image)
     h.draw(win, c.angle, c.position[0], c.position[1])
     pg.display.update()
@@ -45,6 +72,8 @@ done = False
 while not done:
     # set clock speed of game
     clock.tick(60)
+
+    print(pg.sprite.spritecollide(h, t, True))
 
     # to check if game window has been closed
     for event in pg.event.get():
