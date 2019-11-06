@@ -14,7 +14,7 @@ class Hitbox(pg.sprite.Sprite):
 
         then shifts the box to fit over the car
         """
-        
+
         car_middle = (x, y)
         angle = 116.3 # place holder
         x = car_middle[0] + math.cos(math.radians(-a + -angle)) * math.sqrt(math.pow(53, 2) + math.pow(27, 2)) / 2

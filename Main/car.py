@@ -6,8 +6,9 @@ This is where the car is drawn and given values
 import pygame as pg
 
 
-class Car(object):
-    def __init__(self, x=250, y=250, angle=0.0, speed=0, deceleration=1, acceleration=1):
+class Car(pg.sprite.Sprite):
+    def __init__(self, x=150, y=320, angle=0.0, speed=0, deceleration=1, acceleration=1, *groups):
+        super().__init__(*groups)
         self.position = (x, y)
         self.angle = angle
         self.speed = speed
@@ -16,16 +17,21 @@ class Car(object):
         self.turn_speed = 5
         self.max_forward_speed = 5
         self.max_reverse_speed = -9
+        self.image = pg.image.load("car.png")
+        self.rotated = pg.transform.rotate(self.image, self.angle)
+        self.rect = self.rotated.get_rect()
+        self.mask = pg.mask.from_surface(self.rotated)
 
-    def draw(self, w, i):
+    def draw(self, w):
         # rotates car
-        rotated = pg.transform.rotate(i, self.angle)
-        rect = rotated.get_rect()
+        self.rotated = pg.transform.rotate(self.image, self.angle)
+        self.rect = self.rotated.get_rect()
         # sets car's position to center of image
-        rect.center = self.position
-        print(self.angle)
-        print(self.position)
-        print(self.speed)
+        self.rect.center = self.position
+        # print(self.angle)
+        # print(self.position)
+        # print(self.speed)
         # displays image on window
-        w.blit(rotated, rect)
+        w.blit(self.rotated, self.rect)
+        self.mask = pg.mask.from_surface(self.rotated)
         pg.display.flip()
