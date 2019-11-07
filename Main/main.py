@@ -12,7 +12,6 @@ import car
 
 # making the game window and loading images
 pg.init()
-# background = pg.image.load("track.png")
 clock = pg.time.Clock()
 height = 720
 width = 1280
@@ -21,42 +20,14 @@ w_half = width / 2
 win = pg.display.set_mode((width, height))
 pg.display.set_caption("Car AI")
 
-# track_out = ((100, 392),
-# (100, 249),
-# (150, 171),
-# (237, 111),
-# (404, 95),
-# (594, 89),
-# (745, 95),
-# (793, 121),
-# (828, 178),
-# (833, 228),
-# (799, 286),
-# (740, 334),
-# (730, 365),
-# (812, 381),
-# (940, 385),
-# (1086, 397),
-# (1143, 441),
-# (1174, 502),
-# (1175, 574),
-# (1123, 643),
-# (1043, 669),
-# (845, 681),
-# (320, 675),
-# (199, 643),
-# (133, 571))
-
 
 # draw window and other classes method
 def window():
-    # win.blit(background, (0, 0))
     win.fill((0, 0, 0))
-    # h.draw
     t_out.draw(win)
     t_in.draw(win)
+    h.draw(win, c.angle, c.position[0], c.position[1])
     c.draw(win)
-    # h.draw(win, c.angle, c.position[0], c.position[1])
     pg.display.flip()
 
 
@@ -64,7 +35,6 @@ def window():
 forward = True
 backwards = False
 
-group = pg.sprite.Group()
 
 # making objects
 t_out = track.Track(((100, 392),
@@ -92,14 +62,27 @@ t_out = track.Track(((100, 392),
 (320, 675),
 (199, 643),
 (133, 571)))
-t_in = track.Track(())
-
+t_in = track.Track(((236, 376),
+                    (247, 260),
+                    (289, 222),
+                    (625, 205),
+                    (681, 218),
+                    (681, 229),
+                    (636, 266),
+                    (596, 341),
+                    (596, 438),
+                    (645, 473),
+                    (726, 488),
+                    (955, 501),
+                    (980, 507),
+                    (1005, 522),
+                    (1008, 530),
+                    (996, 550),
+                    (786, 565),
+                    (313, 548),
+                    (267, 502)))
 h = hitbox.Hitbox()
 c = car.Car()
-
-group.add(t_out)
-# car_group = pg.sprite.Group()
-
 
 done = False
 # main game loop
@@ -110,6 +93,8 @@ while not done:
     # car_crash = pg.sprite.spritecollide(c, group, True, pg.sprite.collide_mask)
 
     car_crash = pg.sprite.collide_mask(c, t_out) or pg.sprite.collide_mask(c, t_in)
+
+
 
     if car_crash:
         print('collide')
