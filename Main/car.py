@@ -7,13 +7,16 @@ import pygame as pg
 
 
 class Car(pg.sprite.Sprite):
-    def __init__(self, x=170, y=320, angle=0.0, speed=0, deceleration=1, acceleration=1, *groups):
-        super().__init__(*groups)
-        self.position = (x, y)
-        self.angle = angle
-        self.speed = speed
-        self.deceleration = deceleration
-        self.acceleration = acceleration
+    def __init__(self):
+        pg.sprite.Sprite.__init__(self)
+        self.x = 170
+        self.y = 320
+        self.position = (self.x, self.y)
+        self.angle = 0.0
+        self.speed = 0
+        self.deceleration = 0.8
+        self.acceleration = 0.5
+
         self.turn_speed = 5
         self.max_forward_speed = 5
         self.max_reverse_speed = -9

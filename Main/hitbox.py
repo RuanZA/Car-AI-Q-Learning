@@ -13,6 +13,7 @@ class Hitbox(pg.sprite.Sprite):
         self.pos = (x, y)
         self.angle = 0
         self.image = pg.Surface([201, 201], pg.SRCALPHA, 32)
+        # self.image = pg.Surface([201, 201])
         self.image = self.image.convert_alpha()
         self.rect = self.image.get_rect()
         i = 0
@@ -21,7 +22,6 @@ class Hitbox(pg.sprite.Sprite):
             y = self.rect.center[1] + math.sin(math.radians(-self.angle + i)) * 100
             pg.draw.line(self.image, (0, 255, 0), self.rect.center, (x, y), 2)
             i += 45
-
         self.rotated = pg.transform.rotate(self.image, self.angle)
         self.rect = self.image.get_rect()
 
@@ -32,7 +32,6 @@ class Hitbox(pg.sprite.Sprite):
         self.rotated = pg.transform.rotate(self.image, a)
         self.rect = self.rotated.get_rect()
 
-        # sets car's position to center of image
         self.rect.center = (x, y)
 
         w.blit(self.rotated, self.rect)

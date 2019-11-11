@@ -8,7 +8,7 @@ import math
 import track
 import hitbox
 import car
-# import checkpoints
+import checkpoints
 
 # making the game window and loading images
 pg.init()
@@ -81,6 +81,10 @@ t_in = track.Track(((236, 376),
                     (786, 565),
                     (313, 548),
                     (267, 502)))
+cp = checkpoints.Checkpoints(((0, 0),
+                              (0, 100),
+                              (100, 0),
+                              (100, 100)))
 h = hitbox.Hitbox()
 c = car.Car()
 
@@ -94,8 +98,7 @@ while not done:
 
     car_crash = pg.sprite.collide_mask(c, t_out) or pg.sprite.collide_mask(c, t_in)
 
-
-
+    # if the car collides with the wall it is sent to beginning
     if car_crash:
         print('collide')
         car_crash = False
