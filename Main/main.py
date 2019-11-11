@@ -23,7 +23,8 @@ pg.display.set_caption("Car AI")
 
 # draw window and other classes method
 def window():
-    win.fill((0, 0, 0))
+    # win.fill((0, 0, 0))
+    cp.draw(win)
     t_out.draw(win)
     t_in.draw(win)
     h.draw(win, c.angle, c.position[0], c.position[1])
@@ -81,10 +82,7 @@ t_in = track.Track(((236, 376),
                     (786, 565),
                     (313, 548),
                     (267, 502)))
-cp = checkpoints.Checkpoints(((0, 0),
-                              (0, 100),
-                              (100, 0),
-                              (100, 100)))
+cp = checkpoints.Checkpoints() # values needed
 h = hitbox.Hitbox()
 c = car.Car()
 
@@ -98,7 +96,6 @@ while not done:
 
     car_crash = pg.sprite.collide_mask(c, t_out) or pg.sprite.collide_mask(c, t_in)
 
-    # if the car collides with the wall it is sent to beginning
     if car_crash:
         print('collide')
         car_crash = False
