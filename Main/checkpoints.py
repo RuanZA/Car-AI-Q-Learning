@@ -3,7 +3,7 @@ Checkpoints class
 
 This is where the checkpoints are being draw
 
-Checkpoints will be guidelies for the car to be able to go around the course
+Checkpoints will be guidelines for the car to be able to go around the course
 """
 import pygame as pg
 

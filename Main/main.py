@@ -23,7 +23,7 @@ pg.display.set_caption("Car AI")
 
 # draw window and other classes method
 def window():
-    # win.fill((0, 0, 0))
+    win.fill((0, 0, 0))
     cp.draw(win)
     t_out.draw(win)
     t_in.draw(win)
@@ -36,7 +36,56 @@ def window():
 forward = True
 backwards = False
 
-
+check1 = ((147, 173),
+          (239, 109),
+          (385, 96),
+          (505, 93),
+          (619, 90),
+          (745, 94),
+          (833, 224),
+          (747, 326),
+          (730, 360),
+          (740, 370),
+          (820, 378),
+          (942, 384),
+          (1100, 403),
+          (1170, 490),
+          (1111, 647),
+          (937, 674),
+          (823, 682),
+          (711, 681),
+          (574, 679),
+          (464, 677),
+          (316, 675),
+          (166, 611),
+          (113, 478),
+          (99, 377))
+check2 = ((248, 260),
+          (289, 222),
+          (397, 217),
+          (510, 210),
+          (609, 206),
+          (681, 217),
+          (682, 223),
+          (668, 241),
+          (596, 361),
+          (648, 473),
+          (836, 494),
+          (952, 501),
+          (998, 516),
+          (1007, 530),
+          (1000, 544),
+          (907, 555),
+          (809, 562),
+          (700, 561),
+          (589, 559),
+          (493, 557),
+          (367, 552),
+          (280, 516),
+          (256, 451),
+          (236, 376))
+pos = 0
+val = 0.3
 # making objects
 t_out = track.Track(((100, 392),
 (100, 249),
@@ -82,9 +131,10 @@ t_in = track.Track(((236, 376),
                     (786, 565),
                     (313, 548),
                     (267, 502)))
-cp = checkpoints.Checkpoints() # values needed
+cp = checkpoints.Checkpoints(check1[pos], check2[pos], 0.3)
 h = hitbox.Hitbox()
 c = car.Car()
+
 
 done = False
 # main game loop
@@ -92,15 +142,23 @@ while not done:
     # set clock speed of game
     clock.tick(60)
 
-    # car_crash = pg.sprite.spritecollide(c, group, True, pg.sprite.collide_mask)
+    track = [t_out, t_in]
+    for i in track:
+        if pg.sprite.collide_mask(c, i):
+            print('collide')
+            pos = 0
+            val = 0.3
+            cp.__init__(check1[pos], check2[pos], val)
+            c.__init__()
 
-    car_crash = pg.sprite.collide_mask(c, t_out) or pg.sprite.collide_mask(c, t_in)
+    if pg.sprite.collide_mask(c, cp):
+        pos += 1
+        if pos == len(check1):
+            pos = 0
+            val = 0.3
+        cp.__init__(check1[pos], check2[pos], val)
 
-    if car_crash:
-        print('collide')
-        car_crash = False
-        c.__init__()
-    #
+
     # to check if game window has been closed
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -116,6 +174,7 @@ while not done:
         c.speed += c.deceleration
         forward = False
         backwards = True
+
     # car can only turn if the car is moving
     if keys[pg.K_RIGHT] and abs(c.speed) > 0.1 and forward:
         c.angle -= c.turn_speed
@@ -125,6 +184,7 @@ while not done:
         c.angle += c.turn_speed
     if keys[pg.K_LEFT] and abs(c.speed) > 0.1 and backwards:
         c.angle -= c.turn_speed
+
     #  handbrake for car
     if keys[pg.K_SPACE]:
         if c.speed < 0:

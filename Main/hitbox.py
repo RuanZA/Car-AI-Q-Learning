@@ -1,7 +1,7 @@
 """
-Hitbox class
+Hit box class
 
-This is where the hitbox is calculated based on the car's position
+This is where the hit box is calculated based on the car's position
 """
 import math
 import pygame as pg
