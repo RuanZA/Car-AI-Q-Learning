@@ -13,7 +13,7 @@ class Track(pg.sprite.Sprite):
         self.points = points
         self.image = pg.Surface([1280, 720], pg.SRCALPHA, 32)
         self.image = self.image.convert_alpha()
-        pg.draw.lines(self.image, (255, 255, 255), True, self.points, 1)
+        pg.draw.lines(self.image, (255, 255, 255), False, self.points, 1)
         self.rect = self.image.get_rect()
         self.mask = pg.mask.from_surface(self.image)
 

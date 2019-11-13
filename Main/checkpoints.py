@@ -8,7 +8,7 @@ Checkpoints will be guidelines for the car to be able to go around the course
 import pygame as pg
 
 
-class Checkpoints(object):
+class Checkpoints(pg.sprite.Sprite):
     def __init__(self, point_a, point_b, val):
         pg.sprite.Sprite.__init__(self)
         self.position = (0, 0)
